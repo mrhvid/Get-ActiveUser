@@ -8,9 +8,13 @@
 .EXAMPLE
    Another example of how to use this cmdlet
 #>
-function Verb-Noun
+function Get-ActiveUser
 {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName='Standard Parameters', 
+                SupportsShouldProcess=$true, 
+                PositionalBinding=$false,
+                HelpUri = 'https://github.com/mrhvid/Get-ActiveUser',
+                ConfirmImpact='Medium')]
     [Alias()]
     [OutputType([int])]
     Param
@@ -19,11 +23,16 @@ function Verb-Noun
         [Parameter(Mandatory=$true,
                    ValueFromPipelineByPropertyName=$true,
                    Position=0)]
-        $Param1,
+        [String[]]
+        $ComputerName,
 
         # Param2 help description
-        [int]
-        $Param2
+        [Parameter(Mandatory=$true,
+            ValueFromPipelineByPropertyName=$true,
+            Position=1)]
+        [ValidateSet('WMI','CIM','Query')]
+        [String]
+        $Method
     )
 
     Begin
@@ -31,6 +40,26 @@ function Verb-Noun
     }
     Process
     {
+
+        switch ($Method)
+        {
+            'WMI' 
+            {
+                $WMI = Get-WmiObject -Class Win32_Process
+                $ProcessUsers = $WMI.getowner().user | Select-Object -Unique
+            
+            
+            
+            }
+            'CIM' {}
+            'Query' {}
+
+        }
+
+
+
+
+
     }
     End
     {
