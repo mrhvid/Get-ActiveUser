@@ -1,12 +1,27 @@
 ﻿<#
 .Synopsis
-   Short description
+   Retrive list of active users on windows machine
 .DESCRIPTION
-   Long description
+   Uses WMI, CIM or Query.exe
 .EXAMPLE
-   Example of how to use this cmdlet
+PS C:\> Get-ActiveUser localhost -Method Query
+
+ComputerName UserName
+------------ --------
+localhost    jonas
+localhost    test
+
 .EXAMPLE
-   Another example of how to use this cmdlet
+PS C:\> Get-ActiveUser localhost -Method wmi
+
+ComputerName UserName
+------------ --------
+localhost    Jonas
+
+.NOTES
+   This module was created with a powershell.org blogpost in mind
+   Created by Jonas Sommer Nielsen
+
 #>
 function Get-ActiveUser
 {
@@ -57,7 +72,7 @@ function Get-ActiveUser
 
                 Foreach($Process in $CIM) {
                                             $Owners += Invoke-CimMethod -InputObject $Process -MethodName GetOwner              
-                                          } 
+                                            } 
                 $ProcessUsers = $Owners | Select-Object -ExpandProperty User -Unique
             }
             'Query' 
@@ -69,7 +84,7 @@ function Get-ActiveUser
  {USER*:test}                                      2  Disc      1+00:27  25-08-2015 08:26
 '@
 
-                $Query = query.exe user
+                $Query = query.exe user /server $ComputerName
                 $ProcessUsers = $Query | ConvertFrom-String -TemplateContent $Template | Select-Object -ExpandProperty User
             }
 
