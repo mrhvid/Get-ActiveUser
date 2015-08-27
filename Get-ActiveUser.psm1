@@ -60,7 +60,18 @@ function Get-ActiveUser
                                           } 
                 $ProcessUsers = $Owners | Select-Object -ExpandProperty User -Unique
             }
-            'Query' {}
+            'Query' 
+            {
+                Write-Verbose "Contacting $ComputerName via Query"
+                $Template = @'
+ USERNAME              SESSIONNAME        ID  STATE   IDLE TIME  LOGON TIME
+>{USER*:jonas}                 console             1  Active    1+00:27  24-08-2015 22:22
+ {USER*:test}                                      2  Disc      1+00:27  25-08-2015 08:26
+'@
+
+                $Query = query.exe user
+                $ProcessUsers = $Query | ConvertFrom-String -TemplateContent $Template | Select-Object -ExpandProperty User
+            }
 
         }
 
