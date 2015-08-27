@@ -64,6 +64,8 @@ function Get-ActiveUser
 
         }
 
+        #Return
+        $ProcessUsers
 
 
     }
