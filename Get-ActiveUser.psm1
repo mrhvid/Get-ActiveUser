@@ -64,10 +64,14 @@ function Get-ActiveUser
 
         }
 
-        #Return
-        $ProcessUsers
+        # Create nice output format
+        $UsersComputersToOutput = @()
+        foreach($User in $ProcessUsers) {
+             $UsersComputersToOutput += New-Object psobject -Property @{ComputerName=$ComputerName;UserName=$User}   
+        }
 
-
+        # output data
+        $UsersComputersToOutput
     }
     End
     {
