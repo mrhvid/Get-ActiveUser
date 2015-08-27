@@ -23,7 +23,7 @@ function Get-ActiveUser
         [Parameter(Mandatory=$true,
                    ValueFromPipelineByPropertyName=$true,
                    Position=0)]
-        [String[]]
+        [String]
         $ComputerName,
 
         # Choose method, WMI, CIM or Query
