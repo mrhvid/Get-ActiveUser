@@ -18,6 +18,9 @@ ComputerName UserName
 ------------ --------
 localhost    Jonas
 
+.EXAMPLE
+PS C:\> Start-Multithread -Script {param($C) Get-ActiveUser -ComputerName $C -Method Query} -ComputerName ::1,Localhost | Out-GridView
+
 .NOTES
    This module was created with a powershell.org blogpost in mind
    Created by Jonas Sommer Nielsen
