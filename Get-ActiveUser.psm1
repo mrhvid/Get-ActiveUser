@@ -45,11 +45,8 @@ function Get-ActiveUser
         {
             'WMI' 
             {
-                $WMI = Get-WmiObject -Class Win32_Process
+                $WMI = Get-WmiObject -Class Win32_Process -ComputerName $ComputerName -ErrorAction Stop
                 $ProcessUsers = $WMI.getowner().user | Select-Object -Unique
-            
-            
-            
             }
             'CIM' {}
             'Query' {}
