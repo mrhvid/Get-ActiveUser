@@ -16,17 +16,17 @@ function Get-ActiveUser
                 HelpUri = 'https://github.com/mrhvid/Get-ActiveUser',
                 ConfirmImpact='Medium')]
     [Alias()]
-    [OutputType([int])]
+    [OutputType([string[]])]
     Param
     (
-        # Param1 help description
+        # Computer name, IP, Hostname
         [Parameter(Mandatory=$true,
                    ValueFromPipelineByPropertyName=$true,
                    Position=0)]
         [String[]]
         $ComputerName,
 
-        # Param2 help description
+        # Choose method, WMI, CIM or Query
         [Parameter(Mandatory=$true,
             ValueFromPipelineByPropertyName=$true,
             Position=1)]
@@ -40,20 +40,29 @@ function Get-ActiveUser
     }
     Process
     {
+        Write-Verbose "$Method selected as method"
 
         switch ($Method)
         {
             'WMI' 
             {
+                Write-Verbose "Contacting $ComputerName via WMI"
                 $WMI = Get-WmiObject -Class Win32_Process -ComputerName $ComputerName -ErrorAction Stop
-                $ProcessUsers = $WMI.getowner().user | Select-Object -Unique
+                $ProcessUsers = $WMI.getowner().user | Select-Object  -Unique
             }
-            'CIM' {}
+            'CIM' 
+            {
+                Write-Verbose "Contacting $ComputerName via CIM"
+                $CIM = Get-CimInstance -ClassName Win32_Process -ComputerName $ComputerName -ErrorAction Stop
+
+                Foreach($Process in $CIM) {
+                                            $Owners += Invoke-CimMethod -InputObject $Process -MethodName GetOwner              
+                                          } 
+                $ProcessUsers = $Owners | Select-Object -ExpandProperty User -Unique
+            }
             'Query' {}
 
         }
-
-
 
 
 
