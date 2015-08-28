@@ -65,18 +65,29 @@ function Get-ActiveUser
             'WMI' 
             {
                 Write-Verbose "Contacting $ComputerName via WMI"
-                $WMI = Get-WmiObject -Class Win32_Process -ComputerName $ComputerName -ErrorAction Stop
-                $ProcessUsers = $WMI.getowner().user | Select-Object  -Unique
+          
+                $WMI = (Get-WmiObject Win32_LoggedOnUser).Antecedent
+                $ActiveUsers = @()
+                foreach($User in $WMI) {
+                    $StartOfUsername = $User.LastIndexOf('=') + 2
+                    $EndOfUsername = $User.Length - $User.LastIndexOf('=') -3
+                    $ActiveUsers += $User.Substring($StartOfUsername,$EndOfUsername)
+                }
+                $ActiveUsers = $ActiveUsers | Select-Object -Unique
+
             }
             'CIM' 
             {
                 Write-Verbose "Contacting $ComputerName via CIM"
-                $CIM = Get-CimInstance -ClassName Win32_Process -ComputerName $ComputerName -ErrorAction Stop
+#                $CIM = Get-CimInstance -ClassName Win32_Process -ComputerName $ComputerName -ErrorAction Stop
+#
+#                Foreach($Process in $CIM) {
+#                                            $Owners += Invoke-CimMethod -InputObject $Process -MethodName GetOwner              
+#                                            } 
+#                $ActiveUsers = $Owners | Select-Object -ExpandProperty User -Unique
+#
+                $ActiveUsers = (Get-CimInstance Win32_LoggedOnUser -ComputerName $ComputerName).antecedent.name
 
-                Foreach($Process in $CIM) {
-                                            $Owners += Invoke-CimMethod -InputObject $Process -MethodName GetOwner              
-                                            } 
-                $ProcessUsers = $Owners | Select-Object -ExpandProperty User -Unique
             }
             'Query' 
             {
@@ -88,14 +99,14 @@ function Get-ActiveUser
 '@
 
                 $Query = query.exe user /server $ComputerName
-                $ProcessUsers = $Query | ConvertFrom-String -TemplateContent $Template | Select-Object -ExpandProperty User
+                $ActiveUsers = $Query | ConvertFrom-String -TemplateContent $Template | Select-Object -ExpandProperty User
             }
 
         }
 
         # Create nice output format
         $UsersComputersToOutput = @()
-        foreach($User in $ProcessUsers) {
+        foreach($User in $ActiveUsers) {
              $UsersComputersToOutput += New-Object psobject -Property @{ComputerName=$ComputerName;UserName=$User}   
         }
 
