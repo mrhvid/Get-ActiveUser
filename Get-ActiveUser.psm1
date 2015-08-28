@@ -79,14 +79,7 @@ function Get-ActiveUser
             'CIM' 
             {
                 Write-Verbose "Contacting $ComputerName via CIM"
-#                $CIM = Get-CimInstance -ClassName Win32_Process -ComputerName $ComputerName -ErrorAction Stop
-#
-#                Foreach($Process in $CIM) {
-#                                            $Owners += Invoke-CimMethod -InputObject $Process -MethodName GetOwner              
-#                                            } 
-#                $ActiveUsers = $Owners | Select-Object -ExpandProperty User -Unique
-#
-                $ActiveUsers = (Get-CimInstance Win32_LoggedOnUser -ComputerName $ComputerName).antecedent.name
+                $ActiveUsers = (Get-CimInstance Win32_LoggedOnUser -ComputerName $ComputerName).antecedent.name | Select-Object -Unique
 
             }
             'Query' 
