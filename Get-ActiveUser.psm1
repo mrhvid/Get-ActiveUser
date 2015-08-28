@@ -23,6 +23,7 @@ PS C:\> Start-Multithread -Script {param($C) Get-ActiveUser -ComputerName $C -Me
 
 .NOTES
    This module was created with a powershell.org blogpost in mind
+   http://powershell.org/wp/2015/08/28/list-users-logged-on-to-your-machines/
    Created by Jonas Sommer Nielsen
 
 #>
