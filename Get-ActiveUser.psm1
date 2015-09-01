@@ -90,6 +90,7 @@ function Get-ActiveUser
  USERNAME              SESSIONNAME        ID  STATE   IDLE TIME  LOGON TIME
 >{USER*:jonas}                 console             1  Active    1+00:27  24-08-2015 22:22
  {USER*:test}                                      2  Disc      1+00:27  25-08-2015 08:26
+>{USER*:mrhvid}                rdp-tcp#2           2  Active          .  9/1/2015 8:54 PM
 '@
 
                 $Query = query.exe user /server $ComputerName
