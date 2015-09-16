@@ -3,28 +3,13 @@
    Retrive list of active users on windows machine
 .DESCRIPTION
    Uses WMI, CIM or Query.exe
-.EXAMPLE
-PS C:\> Get-ActiveUser localhost -Method Query
-
-ComputerName UserName
------------- --------
-localhost    jonas
-localhost    test
-
-.EXAMPLE
-PS C:\> Get-ActiveUser localhost -Method wmi
-
-ComputerName UserName
------------- --------
-localhost    Jonas
-
-.EXAMPLE
-PS C:\> Start-Multithread -Script {param($C) Get-ActiveUser -ComputerName $C -Method Query} -ComputerName ::1,Localhost | Out-GridView
-
-.NOTES
+   
    This module was created with a powershell.org blogpost in mind
    http://powershell.org/wp/2015/08/28/list-users-logged-on-to-your-machines/
    Created by Jonas Sommer Nielsen
+
+.ExternalHelp Get-ActiveUser-Help.xml
+
 
 #>
 function Get-ActiveUser
