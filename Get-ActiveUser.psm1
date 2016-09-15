@@ -15,7 +15,7 @@
 function Get-ActiveUser
 {
     [CmdletBinding(DefaultParameterSetName='Standard Parameters', 
-                SupportsShouldProcess=$true, 
+                SupportsShouldProcess=$false, 
                 PositionalBinding=$false,
                 HelpUri = 'https://github.com/mrhvid/Get-ActiveUser',
                 ConfirmImpact='Medium')]
