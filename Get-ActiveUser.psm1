@@ -41,6 +41,7 @@ function Get-ActiveUser
 
     Begin
     {
+        #test
     }
     Process
     {
