@@ -10,7 +10,8 @@
 
 .ExternalHelp Get-ActiveUser-Help.xml
 
-
+.Example
+    test
 #>
 function Get-ActiveUser
 {
