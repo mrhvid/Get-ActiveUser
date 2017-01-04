@@ -33,5 +33,29 @@ Describe "My scenario" {
     It -Pending "Isn't done yet" {
     }
 
+    It -Pending "Should be able to query remote machine" {
+      $obj = Get-CimInstance -ClassName Win32_Service -Computer REMOTE -EA Stop
+    }
+
+    It "Should be a number" {
+      Get-Random | Should BeOfType [int]
+    }
+
+    It "should be a word" {
+        "word" | Should Be "word"
+    }
+    
+    It 'should not be a phrase' {
+        "word" | Should Not Be "phrase"
+    }
+    
+    It 'BITS should be running' {
+        Get-Service *bits* | Select-Object -Expand Name | Should Be "BITS"
+    }
+
+    It 'Windows folder should exist' {
+        "C:\Windows" | Should Exist
+    }
+
 }
 
