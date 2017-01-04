@@ -1,4 +1,4 @@
-# tests 
+
 
 
 Describe "This is the description" {
@@ -20,7 +20,18 @@ Describe "My scenario" {
         It "Demonstrates something" {
             "I run third" | Should BeOfType System.String
         }
-    
+    }
+
+    It "Displays 1" {
+        1 | Should be 1
+    }
+
+    It -Skip "Checks the database" {
+        Test-DBConnect | Should BeOfType System.Data.SqlClient.SqlConnection
+    }
+
+    It -Pending "Isn't done yet" {
     }
 
 }
+
