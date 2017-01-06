@@ -1,4 +1,12 @@
 
+<#
+* We need to know if selecting method works as intended
+* We need to test each method
+* We need to test error handeling for each method (what happens if a machine is not online, winrm is not enabled)
+* ComputerName parameter
+* ComputerName should handle array of machines
+
+#>
 
 
 Describe "This is the description" {

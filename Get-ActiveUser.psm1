@@ -11,7 +11,7 @@
 .ExternalHelp Get-ActiveUser-Help.xml
 
 .Example
-    test  this is a test of git
+    
 #>
 function Get-ActiveUser
 {
@@ -42,7 +42,6 @@ function Get-ActiveUser
 
     Begin
     {
-        #test
     }
     Process
     {
